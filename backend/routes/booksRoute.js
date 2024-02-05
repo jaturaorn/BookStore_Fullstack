@@ -1,36 +1,18 @@
 import express from "express";
-
 import {
-  addBook,
-  deleteBook,
   getBook,
+  createBook,
   getBookById,
   updateBook,
-} from "../controllers/bookController.js";
+  deleteBook,
+} from "../Controller/bookController.js";
 
 const router = express.Router();
 
-// *TODO: Route for Get All Books form database
-router.get("/", getBook);
+// Route for Get All Books , Create a new Book from database
+router.route("/").get(getBook).post(createBook);
 
-// *TODO: Route for Get One Books form database by id
-router.get("/:id", getBookById);
-
-// *TODO: Route for Add a new Book
-router.post("/", addBook);
-
-// *TODO: Route for Update Books form database
-router.put("/:id", updateBook);
-
-// *TODO: Route for Delete Books form database
-router.delete("/:id", deleteBook);
+// Route for Get One Book from database by id , Update a Book , Delete a Book
+router.route("/:id").get(getBookById).put(updateBook).delete(deleteBook);
 
 export default router;
-
-/*
- * router.route("/").get((req, res) =>{
- * code whatever here
- * })
- */
-
-// *TODO: router.get("/", getBook).post("/", addBook);
