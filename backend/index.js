@@ -7,6 +7,7 @@ dotenv.config();
 import { mongoDBURL } from "./config.js";
 
 import booksRoute from "./routes/booksRoute.js";
+import errorHandler from "./middleware/errorHandler.js";
 
 const app = express();
 
@@ -27,6 +28,8 @@ app.use(
     allowedHeaders: ["Content-Type"],
   })
 );
+
+app.use(errorHandler);
 
 // app.get("/", (req, res) => {
 //   //   console.log(req);
