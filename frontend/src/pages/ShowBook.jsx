@@ -11,17 +11,18 @@ export const ShowBook = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`http://localhost:5500/books/${id}`)
-      .then((response) => {
-        setBook(response.data);
+    async function fecthShowBook() {
+      setLoading(true);
+      try {
+        const res = await axios.get(`http://localhost:5500/books/${id}`);
+        setBook(res.data);
         setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.log(error);
         setLoading(false);
-      });
+      }
+    }
+    fecthShowBook();
   }, []);
 
   return (

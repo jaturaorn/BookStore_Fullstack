@@ -15,17 +15,18 @@ export const Home = () => {
   const [showTypes, setShowTypes] = useState("table");
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get("http://localhost:5500/books")
-      .then((response) => {
-        setBooks(response.data.data);
+    async function fetchBooks() {
+      setLoading(true);
+      try {
+        const res = await axios.get("http://localhost:5500/books");
+        setBooks(res.data.data);
         setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.log(error);
         setLoading(false);
-      });
+      }
+    }
+    fetchBooks();
   }, []);
 
   // console.log(books);
