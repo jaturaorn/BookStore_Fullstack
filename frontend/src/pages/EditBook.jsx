@@ -18,41 +18,42 @@ export const EditBook = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    async function fetchById() {
-      setLoading(true);
-      try {
-        const res = await axios.get(`http://localhost:5500/books/${id}`);
-        setTitle(res.data.title);
-        setAuthor(res.data.author);
-        setPublishYear(res.data.publishYear);
+    setLoading(true);
+    axios
+      .get(`http://localhost:5500/books/${id}`)
+      .then((response) => {
+        setAuthor(response.data.author);
+        setPublishYear(response.data.publishYear);
+        setTitle(response.data.title);
         setLoading(false);
-      } catch (error) {
+      })
+      .catch((error) => {
         setLoading(false);
-        alert("An error happened. Please Check console");
+        alert("An error happened. Please Chack console");
         console.log(error);
-      }
-    }
-    fetchById();
+      });
   }, []);
 
-  const handleEditBook = async (id) => {
-    const newData = {
+  const handleEditBook = () => {
+    const data = {
       title,
       author,
       publishYear,
     };
     setLoading(true);
-    try {
-      await axios.put(`http://localhost:5500/books/${id}`, newData);
-      setLoading(false);
-      enqueueSnackbar("Book Update Success", { variant: "success" });
-      navigate("/");
-    } catch (error) {
-      setLoading(false);
-      // alert("An error happened. Please check the console");
-      enqueueSnackbar("Error", { variant: "error" });
-      console.log(error);
-    }
+    axios
+      .put(`http://localhost:5500/books/${id}`, data)
+      .then(() => {
+        setLoading(false);
+        enqueueSnackbar("Book Edited successfully", { variant: "success" });
+        navigate("/");
+      })
+      .catch((error) => {
+        setLoading(false);
+        // alert('An error happened. Please Chack console');
+        enqueueSnackbar("Error", { variant: "error" });
+        console.log(error);
+      });
   };
 
   return (
